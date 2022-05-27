@@ -1,0 +1,4 @@
+#!/bin/bash
+filename="file=@$1"
+
+curl -F$filename  https://0x0.st

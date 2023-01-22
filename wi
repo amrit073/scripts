@@ -1,0 +1,30 @@
+#!/bin/bash
+PID=3
+
+
+function firstRun() {
+	echo "ran the command"
+$2 & 
+PID=$!
+echo "pid is "
+echo $PID
+checkChange "$@"
+}
+
+
+
+function checkChange() {
+	while inotifywait  -q -r "$1"  -e create,delete,modify
+do {
+	echo "checking pid"
+	echo "pid is "
+	echo $PID
+	if [ $PID -gt 10 ] ;then kill $PID; fi
+	echo "pid killed if existed"
+	echo "file is modified"
+        firstRun "$@";
+}
+done 
+}
+
+firstRun "$@"

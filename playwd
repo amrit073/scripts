@@ -1,0 +1,7 @@
+#!/bin/bash
+res=$(curl 'https://labs.play-with-docker.com/sessions/ceqjfan91rrg00fc5ek0/instances' -X POST -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0' -H 'Accept: application/json, text/plain, */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json;charset=utf-8' -H 'Origin: https://labs.play-with-docker.com' -H 'DNT: 1' -H 'Connection: keep-alive' -H 'Referer: https://labs.play-with-docker.com/p/ceqjfan91rrg00fc5ek0' -H 'Cookie: id=MTY3MjgwMzgwMnxEOXRCc1Bpa2hHTWlSSGNDVXFCN2F5Qm1hWVk0dlBJbXgyYTZESS1DelRkQ1BIbjBmV09UVDBmYlhFR29aeXZHZDBWdGVSbUdDV1ZocDVjV1NubnVCRnhPSFN4UW5LdEpoSHpjcWlZZkpSUFowWVpzYmJQcVdFUVI2ZlhkNE9JT2c0RzljQWZ6UGdfTnJVbnVMdzY1b0RMVC04UWx3MEFIbWEtNHFrc1ZUc2duaGVEMXpBM2l5NVU1dFJCblB4ZGdaSTlQZGk2LVJ2WXdveHdwZ2R4NEpxM1Z2Y0g1ZHFGRkdDWHhrUC14TlFpYW1wUE5RNWZZWnZSS3FSOEpJd3JZNnF0ci1vajRhbnBGcVRZZXdzND18-BkTGtR23ozDKOi1eOhOEkDQd3pQNF0WCI70hu0vth8=' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: same-origin' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' --data-raw '{"ImageName":"franela/dind","type":"linux"}' | jq .proxy_host | sed s/\"//g )
+
+url="$res"@direct.labs.play-with-docker.com
+echo $url
+
+ssh $url

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+res=$(curl https://api.amritpaudel.info.np/date | head -n1 ) 
+notify-send "Todays' Date" "$res"

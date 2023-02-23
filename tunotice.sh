@@ -2,8 +2,7 @@
 # init_notice="$(curl https://www.tuiost.edu.np/ | grep 'b class' | cut -d '>' -f 2 | cut -d '<' -f 1 | head -n4)"
 # cat init_notice > initnotice
 # sleep 10s
-notify-send scriptstart 'scriptisrunning'
-
+notify-send TU-NOTICE "$(curl -s https://www.tuiost.edu.np/ | grep 'b class' | cut -d '>' -f 2 | cut -d '<' -f 1 | head -n5)"
 while true 
 do
 
@@ -20,6 +19,6 @@ else
 
 fi
 
-sleep 5s
+sleep 30m
 done
 

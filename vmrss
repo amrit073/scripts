@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Function to calculate and display the RSS of a process using its PID
+calculate_rss() {
+  local pid=$1
+
+  # Check if the PID exists in /proc directory
+  if ! [ -d "/proc/$pid" ]; then
+    echo "Error: Process with PID $pid does not exist."
+    exit 1
+  fi
+
+  # Get the RSS value from /proc/<PID>/status
+  RSS=$(awk '/VmRSS/ {print $2}' "/proc/$pid/status")
+
+  # Check if RSS value is available
+  if [ -z "$RSS" ]; then
+    echo "Error: Failed to read RSS value for PID $pid."
+    exit 1
+  fi
+
+  # Convert RSS to MB and print the result
+  echo "$RSS kB" | awk '{ printf "%.2f MB\n", $1/1024 }'
+}
+
+# Check if -p flag is provided with the PID
+if [ "$1" == "-p" ]; then
+  # Check if the PID is provided as an argument
+  if [ $# -ne 2 ]; then
+    echo "Error: Please provide the PID with the -p flag."
+    exit 1
+  fi
+
+  # Get the PID from the second argument
+  pid=$2
+
+  # Calculate and display the RSS for the provided PID
+  calculate_rss "$pid"
+
+  # Ask if you want to kill the process
+  read -p "Do you want to kill the process with PID $pid? (y/n): " choice
+  if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
+    echo "Killing process with PID $pid..."
+    kill "$pid"
+  fi
+
+# If -p flag is not provided, assume the command to run is provided
+else
+  # Check if a command is provided as arguments
+  if [ $# -eq 0 ]; then
+    echo "Error: Please provide a command to run."
+    exit 1
+  fi
+
+  # Run the provided command in the background
+  "$@" &
+
+  sleep 5
+
+  # Obtain the PID of the background command
+  pid=$!
+
+  # Calculate and display the RSS for the provided PID
+  calculate_rss "$pid"
+
+  # Ask if you want to kill the process
+  read -p "Do you want to kill the process with PID $pid? (y/n): " choice
+  if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
+    echo "Killing process with PID $pid..."
+    kill "$pid"
+  fi
+fi

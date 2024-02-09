@@ -42,6 +42,8 @@ if [ "$1" == "-p" ]; then
   if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
     echo "Killing process with PID $pid..."
     kill "$pid"
+  else
+    calculate_rss "$pid"
   fi
 
 # If -p flag is not provided, assume the command to run is provided
@@ -55,7 +57,7 @@ else
   # Run the provided command in the background
   "$@" &
 
-  sleep 5
+  sleep 10
 
   # Obtain the PID of the background command
   pid=$!
@@ -68,5 +70,7 @@ else
   if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
     echo "Killing process with PID $pid..."
     kill "$pid"
+  else
+    calculate_rss "$pid"
   fi
 fi

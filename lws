@@ -1,0 +1,3 @@
+#!/bin/bash
+aws_command="$@"
+aws $aws_command --endpoint-url http://ip172-18-0-15-cmbp62dnp9tg00f2jhig-4566.direct.labs.play-with-docker.com
